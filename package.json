@@ -51,6 +51,7 @@
     "test": "vscode-test"
   },
   "devDependencies": {
+    "@jest/globals": "^30.0.4",
     "@types/estree": "^1.0.8",
     "@types/istanbul-lib-coverage": "^2.0.6",
     "@types/jest": "^30.0.0",
