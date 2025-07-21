@@ -1,0 +1,16 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "Running Todo-Tracker validation..."
+
+# First try running tests
+if ! pnpm test; then
+  echo "Tests failed - push aborted"
+  exit 1
+fi
+
+# Then check for TODOs in staged files
+if ! pnpm run check-todos; then
+  echo "Pending TODOs found - push aborted"
+  exit 1
+fi
