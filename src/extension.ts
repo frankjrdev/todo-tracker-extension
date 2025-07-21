@@ -1,26 +1,25 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { TodoParser } from './core/todo-tracker/TodoParser';
+import { PrePushValidator } from './core/git/PrePushValidator';
+import { Logger } from './utils/Logger';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+/**
+ * Activates the extension
+ * @param {vscode.ExtensionContext} context - VSCode extension context
+ */
 export function activate(context: vscode.ExtensionContext) {
+  const logger = new Logger('TodoTrackerExtension');
+  const todoParser = new TodoParser();
+  const pushValidator = new PrePushValidator();
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "todo-tracker" is now active!');
+  logger.info('Todo Tracker Extension is now active');
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('todo-tracker.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from todo-tracker!');
-	});
-
-	context.subscriptions.push(disposable);
+  //TODO: Register the pre-push validator
 }
 
 // This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() {
+  const logger = new Logger('TodoTrackerExtension');
+  logger.info('Todo Tracker Extension is now deactivated');
+  // Perform any necessary cleanup here
+}
