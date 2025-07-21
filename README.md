@@ -1,71 +1,145 @@
-# todo-tracker README
+# Todo-Tracker - Extensión para VSCode
 
-This is the README for your extension "todo-tracker". After writing up a brief description, we recommend including the following sections.
+![Banner](images/banner.png) <!-- Si tienes un banner -->
 
-## Features
+Una extensión agresiva para el seguimiento de TODOs y FIXMEs en tu código, con integración Git para evitar pushes con tareas pendientes.
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## ✨ Features
 
-For example if there is an image subfolder under your extension project workspace:
+### Panel de Control de TODOs
 
-\!\[feature X\]\(images/feature-x.png\)
+![Panel de control](images/panel.png) <!-- Ejemplo de ruta de imagen -->
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- Listado interactivo de todos los pendientes
+- Agrupación por archivo, tipo y prioridad
+- Navegación directa al código con un clic
 
-## Requirements
+### Integración con Git
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+![Git Hook](images/git-hook.png)
 
-## Extension Settings
+- Bloqueo de push si hay TODOs pendientes (configurable)
+- Advertencias al guardar archivos con pendientes
+- Opción para posponer TODOs con justificación
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+### Detección Avanzada
 
-For example:
+```typescript
+// TODO: Refactorizar este componente
+// FIXME!(alta): Corregir vulnerabilidad
+/* OPTIMIZE(@dev): Mejorar rendimiento */
 
-This extension contributes the following settings:
+Soporta múltiples formatos y lenguajes
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+Priorización con ! (urgente) y ? (baja)
 
-## Known Issues
+🚀 Instalación
+Busca "Todo-Tracker" en el Marketplace de VSCode
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+Haz clic en Instalar
 
-## Release Notes
+Recarga VSCode cuando se solicite
 
-Users appreciate release notes as you update your extension.
+O instala manualmente:
+```
 
-### 1.0.0
+code --install-extension todo-tracker-0.0.1.vsix
 
-Initial release of ...
+⚙️ Extension Settings
+Esta extensión contribuye con las siguientes configuraciones:
 
-### 1.0.1
+Setting Descripción Default
+todo-tracker.enable Activar/desactivar extensión true
+todo-tracker.strictMode Bloquear push si hay TODOs false
+todo-tracker.keywords Palabras clave a detectar ["TODO", "FIXME"]
+todo-tracker.excludeFiles Patrones a ignorar ["**/node_modules/**"]
+Ejemplo en settings.json:
 
-Fixed issue #.
+json
+{
+"todo-tracker.enable": true,
+"todo-tracker.keywords": ["TODO", "FIXME", "OPTIMIZE"]
+}
+📋 Requirements
+VSCode 1.70+
 
-### 1.1.0
+Node.js 16+ (solo para desarrollo)
 
-Added features X, Y, and Z.
+Git (para integración con hooks)
 
----
+🐛 Known Issues
+Los TODOs en archivos binarios no son detectados (#12)
 
-## Following extension guidelines
+El hook de Git puede fallar en Windows con paths largos (#18)
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+Ver todos los issues
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+📅 Release Notes
+0.1.0 (Próximo lanzamiento)
+Integración con Jira/GitHub Issues
 
-## Working with Markdown
+Soporte para estimación de tiempo (TODO(2h))
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+Exportación de reportes CSV
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
+0.0.1
+Lanzamiento inicial con:
 
-## For more information
+Detección básica de TODOs
 
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+Panel de visualización
 
-**Enjoy!**
+Integración con Git hooks
+
+🛠 Development
+bash
+
+# Clonar repositorio
+
+git clone https://github.com/tu-usuario/todo-tracker.git
+
+# Instalar dependencias
+
+pnpm install
+
+# Ejecutar en modo desarrollo
+
+pnpm run watch
+Estructura del proyecto:
+
+text
+src/
+├── extension.ts # Punto de entrada
+├── TodoProvider.ts # Lógica principal
+├── GitHookManager.ts # Integración con Git
+test/
+├── extension.test.ts # Tests unitarios
+🤝 Contributing
+Haz fork del proyecto
+
+Crea una rama (git checkout -b feature/awesome-feature)
+
+Haz commit de tus cambios (git commit -m 'Add awesome feature')
+
+Haz push a la rama (git push origin feature/awesome-feature)
+
+Abre un Pull Request
+
+📜 License
+MIT © 2024 [Tu Nombre] | https://img.shields.io/github/followers/tu-usuario?style=social
+
+🔗 Repositorio: github.com/tu-usuario/todo-tracker
+📩 Reportar Bugs: Issues
+📢 Changelog: Releases
+
+text
+
+### ¿Por qué esta versión?
+
+1. **Mantiene la estructura estándar de VSCode** pero con mejor organización
+2. **Incorpora tus necesidades específicas** del tracker agresivo
+3. **Añade secciones técnicas** que esperan los desarrolladores
+4. **Mejor visualización** con tablas y ejemplos de código
+5. **Preparado para imágenes** (banner, screenshots)
+
+¿Necesitas ajustar alguna sección en particular? ¿O prefieres que desarrollemos más algún aspecto específico del README?
