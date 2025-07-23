@@ -5,33 +5,33 @@ import { TodoItem } from './TodoItem';
  * @class TodoParser
  */
 export class TodoParser {
-  private readonly TODO_REGEX = /\/\/\s*TODO:?(.*)$|\/\*\s*TODO:?(.*?)\*\//gi;
+  // Regex para comentarios de línea y bloque
+  private readonly LINE_TODO_REGEX = /\/\/\s*TODO:?(.*)$/gm;
+  private readonly BLOCK_TODO_REGEX = /\/\*\s*TODO:?(.*?)\*\//gms;
 
-  /**
-   * Parse the content of a file to find TODOs
-   * @param {string} content - The content of the file to parse
-   * @param {string} filePath - The path of the file being parsed
-   * @returns {TodoItem[]} An array of TodoItem objects found in the content
-   */
   public parse(content: string, filePath: string): TodoItem[] {
     const todos: TodoItem[] = [];
-    const lines = content.split('\n');
 
-    lines.forEach((line, index) => {
-      let match;
-      while ((match = this.TODO_REGEX.exec(line)) !== null) {
-        const todoText = (match[1] || match[2]).trim();
-        if (todoText) {
-          const todoItem = new TodoItem(
-            todoText,
-            filePath,
-            index + 1, // Line numbers are 1-based
-            new Date(), // Use current date for createdAt
-          );
-          todos.push(todoItem);
-        }
+    // Buscar TODOs en comentarios de línea
+    let match;
+    while ((match = this.LINE_TODO_REGEX.exec(content)) !== null) {
+      const todoText = (match[1] || '').trim();
+      if (todoText) {
+        const before = content.slice(0, match.index);
+        const lineNumber = before.split('\n').length;
+        todos.push(new TodoItem(todoText, filePath, lineNumber, new Date()));
       }
-    });
+    }
+
+    // Buscar TODOs en comentarios de bloque
+    while ((match = this.BLOCK_TODO_REGEX.exec(content)) !== null) {
+      const todoText = (match[1] || '').trim();
+      if (todoText) {
+        const before = content.slice(0, match.index);
+        const lineNumber = before.split('\n').length;
+        todos.push(new TodoItem(todoText, filePath, lineNumber, new Date()));
+      }
+    }
 
     return todos;
   }
