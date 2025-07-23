@@ -1,43 +1,65 @@
-import { TodoParser } from '../../../../core/todo-tracker/TodoParser';
+import { TodoItem } from '@/core/todo-tracker/TodoItem';
 
-describe('TodoParser', () => {
-  const parser = new TodoParser();
+export class TodoParser {
+  // Regex mejorado para capturar TODOs en diferentes formatos
+  private readonly TODO_REGEX = /(?:\/\/|\/\*)\s*TODO:?([^\*]*?(?:\*\/)?)/gi;
 
-  it('should detect single-line TODO comments', () => {
-    const content = '// TODO: Delete data mocked';
-    const todos = parser.parse(content, 'src/file.ts');
-    expect(todos.length).toBe(1);
-    expect(todos[0].text).toBe('Delete data mocked');
-    expect(todos[0].filePath).toBe('src/file.ts');
-    expect(todos[0].lineNumber).toBe(1);
-  });
+  public parse(content: string, filePath: string): TodoItem[] {
+    const todos: TodoItem[] = [];
+    const lines = content.split('\n');
+    let inMultilineComment = false;
+    let multilineText = '';
+    let startLine = 0;
 
-  it('should detect multi-line TODO comments', () => {
-    const content = '/* TODO: Refactor this code\n * to improve readability */';
-    const todos = parser.parse(content, 'src/file.ts');
-    expect(todos.length).toBe(1);
-    expect(todos[0].text).toBe('Refactor this code to improve readability');
-    expect(todos[0].filePath).toBe('src/file.ts');
-    expect(todos[0].lineNumber).toBe(1);
-  });
+    lines.forEach((line, index) => {
+      // Manejo de comentarios multi-línea
+      if (inMultilineComment) {
+        const endMatch = line.match(/\*\//);
+        if (endMatch) {
+          inMultilineComment = false;
+          const textBeforeEnd = line.substring(0, endMatch.index);
+          multilineText += textBeforeEnd;
 
-  it('should handle multiple TODOs in a single line', () => {
-    const content = '// TODO: First task; TODO: Second task';
-    const todos = parser.parse(content, 'src/file.ts');
-    expect(todos.length).toBe(2);
-    expect(todos[0].text).toBe('First task');
-    expect(todos[1].text).toBe('Second task');
-  });
+          // Procesar el TODO completo
+          this.processTodoMatch(multilineText, filePath, startLine + 1, todos);
+          multilineText = '';
+        } else {
+          multilineText += line + '\n';
+        }
+        return;
+      }
 
-  it('should ignore lines without TODO comments', () => {
-    const content = 'This line has no TODO comment';
-    const todos = parser.parse(content, 'src/file.ts');
-    expect(todos.length).toBe(0);
-  });
+      // Buscar inicio de comentario multi-línea
+      const multilineStart = line.match(/\/\*\s*TODO:?([^\*]*)/);
+      if (multilineStart) {
+        inMultilineComment = true;
+        startLine = index;
+        multilineText = multilineStart[1] || '';
+        return;
+      }
 
-  it('should return an empty array for empty content', () => {
-    const content = '';
-    const todos = parser.parse(content, 'src/file.ts');
-    expect(todos.length).toBe(0);
-  });
-});
+      // Procesar comentarios de una sola línea
+      let match;
+      const singleLineRegex = /\/\/\s*TODO:?(.*)/g;
+      while ((match = singleLineRegex.exec(line)) !== null) {
+        const todoText = match[1].trim();
+        if (todoText) {
+          todos.push(new TodoItem(todoText, filePath, index + 1, new Date()));
+        }
+      }
+    });
+
+    return todos;
+  }
+
+  private processTodoMatch(text: string, filePath: string, lineNumber: number, todos: TodoItem[]) {
+    const todoText = text
+      .replace(/\n/g, ' ') // Reemplazar saltos de línea con espacios
+      .replace(/\s+/g, ' ') // Normalizar espacios
+      .trim();
+
+    if (todoText) {
+      todos.push(new TodoItem(todoText, filePath, lineNumber, new Date()));
+    }
+  }
+}

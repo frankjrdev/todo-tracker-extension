@@ -5,7 +5,7 @@ const config: Config.InitialOptions = {
   testEnvironment: 'node',
   moduleFileExtensions: ['ts', 'js', 'json'],
   rootDir: '.',
-  testMatch: ['<rootDir>/test/**/*.test.ts'],
+  testMatch: ['<rootDir>/src/test/**/*.test.ts'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
