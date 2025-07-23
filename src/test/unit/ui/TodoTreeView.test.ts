@@ -1,4 +1,4 @@
-import { TodoItem } from '@/core/todo-tracker/TodoItem';
+import { TodoItem } from '@/core/todo/TodoItem';
 import { TodoTreeView } from '@/ui/TodoTreeView';
 import { Logger } from '@/utils/Logger';
 

@@ -1,4 +1,4 @@
-import { Logger } from '../../../utils/Logger';
+import { Logger } from '@/utils/Logger';
 import * as vscode from 'vscode';
 
 jest.mock('vscode', () => ({

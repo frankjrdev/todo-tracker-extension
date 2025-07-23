@@ -1,4 +1,4 @@
-import { TodoItem } from '../todo-tracker/TodoItem';
+import { TodoItem } from '@/core/todo/TodoItem';
 
 /**
  * Validates TODO/FIXME comments before pushing changes

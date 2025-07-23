@@ -1,16 +1,21 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-echo "Running Todo-Tracker validation..."
+echo "🔍 Running Todo-Tracker pre-push validation..."
 
-# First try running tests
+# 1. Run tests (fail fast)
+echo "🧪 Running tests..."
 if ! pnpm test; then
-  echo "Tests failed - push aborted"
+  echo "❌ Tests failed - push aborted. Fix test failures and try again."
   exit 1
 fi
 
-# Then check for TODOs in staged files
+# 2. Check for TODOs in modified files
+echo "📝 Scanning for pending TODOs..."
 if ! pnpm run check-todos; then
-  echo "Pending TODOs found - push aborted"
+  echo "❌ Pending TODOs found - push aborted."
+  echo "   Use '// TODO-ALLOW-PUSH:' to bypass for critical fixes."
   exit 1
 fi
+
+echo "✅ All checks passed! Pushing changes..."

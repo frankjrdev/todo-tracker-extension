@@ -1,4 +1,4 @@
-import { TodoItem } from '../../../../core/todo-tracker/TodoItem';
+import { TodoItem } from '@/core/todo/TodoItem';
 
 describe('TodoItem', () => {
   it('should correctly initialize properties', () => {

@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { TodoParser } from './core/todo-tracker/TodoParser';
+import { TodoParser } from './core/todo/TodoParser';
 import { PrePushValidator } from './core/git/PrePushValidator';
 import { Logger } from './utils/Logger';
 

@@ -1,4 +1,4 @@
-import { TodoItem } from '@/core/todo-tracker/TodoItem';
+import { TodoItem } from '@/core/todo/TodoItem';
 
 export class TodoParser {
   // Regex mejorado para capturar TODOs en diferentes formatos

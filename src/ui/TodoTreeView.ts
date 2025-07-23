@@ -1,4 +1,4 @@
-import { TodoItem } from '@/core/todo-tracker/TodoItem';
+import { TodoItem } from '@/core/todo/TodoItem';
 import { Logger } from '@/utils/Logger';
 import * as vscode from 'vscode';
 

@@ -1,5 +1,5 @@
-import { PrePushValidator } from '../../../core/git/PrePushValidator';
-import { TodoItem } from '../../../core/todo-tracker/TodoItem';
+import { PrePushValidator } from '@/core/git/PrePushValidator';
+import { TodoItem } from '@/core/todo/TodoItem';
 
 describe('PrePushValidator', () => {
   const validator = new PrePushValidator();
