@@ -31,7 +31,7 @@ export class Logger {
    * Logs a warning message
    * @param {string} message - Message to log
    */
-  public warn(message: string): void {
+  public warn(message: string, error?: Error): void {
     const timestamp = new Date().toISOString();
     this.outputChannel.appendLine(`[WARN][${timestamp}] ${message}`);
     console.warn(`[${this.channelName}] ${message}`);
